@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
-export default function Book() {
-  const [pages, setPages] = useState([]);
+export default function Pages() {
+  const [pages, setPages] = useState({});
   const [pagesLoading, setPagesLoading] = useState([]);
 
   React.useEffect(() => {
@@ -12,9 +12,10 @@ export default function Book() {
         "https://warm-reef-17230.herokuapp.com/api/v1/getBook/mangiri_yarda_picturebook"
       )
       .then((json) => {
-        console.log("json.data:", json.data);
+        console.log("Pages json.data:", json.data);
         setPages(json.data);
-        setIsLoading(false);
+        console.log("pages:", pages);
+        setPagesLoading(false);
       })
       .catch((err) => console.log("err:", err));
     // setTimeout( function(){
@@ -27,14 +28,18 @@ export default function Book() {
   return (
     <div className="Pages">
       {pagesLoading ? (
-        <h2>Wait for pages</h2>
+        <h2>Hang on a mo</h2>
       ) : (
         <>
           <h2>Choose a page!</h2>
           <Form.Select aria-label="Default select example">
-            <option>books...</option>
-            {pages.map((book, i) => {
-              return <option value={i}>{book}</option>;
+            <option>pages...</option>
+            {Object.keys(pages).map((p, i) => {
+              return (
+                <option key={i} value={p}>
+                  {p}
+                </option>
+              );
             })}
           </Form.Select>
         </>
