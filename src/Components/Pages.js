@@ -1,21 +1,30 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Image } from "react-bootstrap";
+
+const bookName = "mangiri_yarda_picturebook";
 
 export default function Pages() {
-  const [pages, setPages] = useState({});
+  const [urlPrefix, setUrlPrefix] = useState("");
+  const [pages, setPages] = useState();
   const [pagesLoading, setPagesLoading] = useState([]);
+  const [index, setIndex] = useState(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   React.useEffect(() => {
     axios
-      .get(
-        "https://warm-reef-17230.herokuapp.com/api/v1/getBook/mangiri_yarda_picturebook"
-      )
+      .get("https://warm-reef-17230.herokuapp.com/api/v1/getBook/" + bookName)
       .then((json) => {
-        console.log("Pages json.data:", json.data);
+        setUrlPrefix(
+          "https://www.issco.unige.ch/en/research/projects/callector/word_locations/" +
+            bookName +
+            "/"
+        );
         setPages(json.data);
-        console.log("pages:", pages);
         setPagesLoading(false);
+        console.log("pages:", pages);
       })
       .catch((err) => console.log("err:", err));
     // setTimeout( function(){
@@ -28,20 +37,25 @@ export default function Pages() {
   return (
     <div className="Pages">
       {pagesLoading ? (
-        <h2>Hang on a mo</h2>
+        <h2>Hang on a mo for pages</h2>
       ) : (
         <>
-          <h2>Choose a page!</h2>
-          <Form.Select aria-label="Default select example">
-            <option>pages...</option>
-            {Object.keys(pages).map((p, i) => {
-              return (
-                <option key={i} value={p}>
-                  {p}
-                </option>
-              );
-            })}
-          </Form.Select>
+          <div className="row-fluid">
+            <div className="col-lg-12 col-md-10 ">
+              <div className="cover-container">
+                {Object.keys(pages).map((page, i) => {
+                  return (
+                    <div className="cover-item">
+                      <Image
+                        src={urlPrefix + page}
+                        className="thumbnail-image"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>
