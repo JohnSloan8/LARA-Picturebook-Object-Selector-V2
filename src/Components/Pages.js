@@ -1,19 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Image } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Image, Container, Row, Col } from "react-bootstrap";
+import Page from "./Page";
+import Words from "./Words";
 
 const bookName = "mangiri_yarda_picturebook";
 
-export default function Pages() {
+export default function Pages(props) {
   const [urlPrefix, setUrlPrefix] = useState("");
-  const [pages, setPages] = useState();
   const [pagesLoading, setPagesLoading] = useState([]);
-  const [index, setIndex] = useState(0);
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
+  const [mainImageName, setMainImageName] = useState("");
+  const [mainImageUrl, setMainImageUrl] = useState("");
+  const [wordsData, setWordsData] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     axios
       .get("https://warm-reef-17230.herokuapp.com/api/v1/getBook/" + bookName)
       .then((json) => {
@@ -22,31 +22,38 @@ export default function Pages() {
             bookName +
             "/"
         );
-        setPages(json.data);
+        console.log("props: ", props);
+        props.setPages(json.data);
         setPagesLoading(false);
         console.log("pages:", pages);
       })
       .catch((err) => console.log("err:", err));
-    // setTimeout( function(){
-    //   setIsLoading(false)
-    //   setBooks(["mangiri_yarda_picturebook"])
-    //   console.log('books', books)
-    // }, 1000)
   }, []);
 
+  const displayImageData = (e) => {
+    console.log("image:", e.target.name);
+    setMainImageName(e.target.name);
+    setMainImageUrl(e.target.src);
+    setWordsData(props.pages[e.target.name]);
+  };
+
   return (
-    <div className="Pages">
+    <Container className="mt-4">
       {pagesLoading ? (
         <h2>Hang on a mo for pages</h2>
       ) : (
         <>
-          <div className="row-fluid">
-            <div className="col-lg-12 col-md-10 ">
+          <p>Choose an image!</p>
+          <Row>
+            <Col>
               <div className="cover-container">
-                {Object.keys(pages).map((page, i) => {
+                {Object.keys(props.pages).map((page, i) => {
                   return (
                     <div className="cover-item">
                       <Image
+                        onClick={displayImageData}
+                        name={page}
+                        key={page + "_key"}
                         src={urlPrefix + page}
                         className="thumbnail-image"
                       />
@@ -54,10 +61,20 @@ export default function Pages() {
                   );
                 })}
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
+          <Container className="mt-4">
+            <Row>
+              <Col>
+                <Page name={mainImageName} url={mainImageUrl} />
+              </Col>
+              <Col>
+                <Words wordsData={wordsData} setWordsData={setWordsData} />
+              </Col>
+            </Row>
+          </Container>
         </>
       )}
-    </div>
+    </Container>
   );
 }
