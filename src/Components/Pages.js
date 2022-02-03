@@ -68,7 +68,7 @@ export default function Pages(props) {
             </Row>
             <Container className="mt-4">
               <Row>
-                <Col>
+                <Col id="imageCol">
                   <Page name={mainImageName} url={mainImageUrl} />
                 </Col>
                 <Col>
