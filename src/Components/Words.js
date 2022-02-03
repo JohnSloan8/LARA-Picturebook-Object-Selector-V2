@@ -4,11 +4,11 @@ import Word from "./Word";
 
 export default function Words(props) {
   const [buttonVariety, setButtonVariety] = useState("primary");
-  const [wordDict, setWordDict] = useState({});
+  const [wordsDict, setWordsDict] = useState({});
 
   useEffect(() => {
     console.log("word", props.wordsData);
-    let tempWordDict = {};
+    let tempWordsDict = {};
     props.wordsData.forEach((s) => {
       s.forEach((w, i) => {
         if (i === 0) {
@@ -21,29 +21,27 @@ export default function Words(props) {
               word = m;
             }
           });
-          tempWordDict[word] = coords;
+          tempWordsDict[word] = coords;
         }
       });
     });
-    console.log("tempWordDict:", tempWordDict);
+    console.log("tempWordsDict:", tempWordsDict);
+    setWordsDict(tempWordsDict);
   }, [props]);
 
   return (
     <>
-      {props.wordsData.map((sentence, s_i) => {
-        return (
-          <Row xs="auto" className="mt-4">
-            {sentence.map((word, w_i) => {
-              if (w_i < sentence.length - 2)
-                return (
-                  <Col>
-                    <Word word={word} />
-                  </Col>
-                );
-            })}
-          </Row>
-        );
-      })}
+      <Row xs="auto" className="m-3">
+        {Object.keys(wordsDict).map((word, w_i) => {
+          // if (w_i < sentence.length - 2)
+          return (
+            <Col>
+              <Word word={word} wordsDict={wordsDict} />
+            </Col>
+            // );
+          );
+        })}
+      </Row>
     </>
   );
 }

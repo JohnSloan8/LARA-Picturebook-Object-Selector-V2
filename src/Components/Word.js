@@ -6,7 +6,7 @@ export default function Word(props) {
   // const [imageID, setImageID] = useState("");
 
   useEffect(() => {
-    if (props.word[1][0] === "") {
+    if (props.wordsDict[props.word][0][0] === "") {
       setButtonVariety("secondary");
     } else {
       setButtonVariety("primary");
@@ -24,9 +24,9 @@ export default function Word(props) {
       variant={buttonVariety}
       id={props.word}
       onClick={showPolygon}
-      className="mt-1"
+      className="mt-2"
     >
-      {props.word[0]}
+      {props.word}
     </Button>
     // }}
   );
