@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export default function Page(props) {
   const [imageURL, setImageURL] = useState("");
   const [imageID, setImageID] = useState("");
+  const [clickPoints, setClickPoints] = useState([]);
 
   useEffect(() => {
     setImageURL(props.url);
@@ -11,12 +12,13 @@ export default function Page(props) {
     //console.log("props.url", props.url);
   }, [props]);
 
+  const dealWithClick = (evt) => {
+    clickPoints.push([evt.offsetX, evt.offsetY]);
+    console.log("clickPoints:", clickPoints);
+    console.log("evt:", evt);
+  };
+
   return (
-    <Image
-      id={imageID}
-      // src={"https://www.issco.unige.ch/en/research/projects/callector/word_locations/mangiri_yarda_picturebook/basic_barngarla_sentences.jpg"}
-      src={imageURL}
-      className=""
-    />
+    <Image id={imageID} src={imageURL} className="" onClick={dealWithClick} />
   );
 }
