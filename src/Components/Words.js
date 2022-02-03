@@ -4,10 +4,28 @@ import Word from "./Word";
 
 export default function Words(props) {
   const [buttonVariety, setButtonVariety] = useState("primary");
-  // const [imageID, setImageID] = useState("");
+  const [wordDict, setWordDict] = useState({});
 
   useEffect(() => {
-    console.log("word", props.wordData);
+    console.log("word", props.wordsData);
+    let tempWordDict = {};
+    props.wordsData.forEach((s) => {
+      s.forEach((w, i) => {
+        if (i === 0) {
+          let word;
+          let coords = [];
+          w.forEach((m, j) => {
+            if (j > 0) {
+              coords.push(m);
+            } else {
+              word = m;
+            }
+          });
+          tempWordDict[word] = coords;
+        }
+      });
+    });
+    console.log("tempWordDict:", tempWordDict);
   }, [props]);
 
   return (

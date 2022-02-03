@@ -6,7 +6,6 @@ export default function Word(props) {
   // const [imageID, setImageID] = useState("");
 
   useEffect(() => {
-    console.log("word", props.word);
     if (props.word[1][0] === "") {
       setButtonVariety("secondary");
     } else {
@@ -14,13 +13,19 @@ export default function Word(props) {
     }
   }, [props]);
 
-  const showPolygon = () => {
+  const showPolygon = (e) => {
     console.log("showing polygons");
+    console.log("this.id", e.target.id);
   };
 
   return (
     // {if ( props.word[1][0] === "" ) {
-    <Button variant={buttonVariety} onClick={showPolygon} className="mt-1">
+    <Button
+      variant={buttonVariety}
+      id={props.word}
+      onClick={showPolygon}
+      className="mt-1"
+    >
       {props.word[0]}
     </Button>
     // }}
