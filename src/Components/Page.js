@@ -8,7 +8,7 @@ export default function Page(props) {
   useEffect(() => {
     setImageURL(props.url);
     setImageID(props.name);
-    console.log("props.url", props.url);
+    //console.log("props.url", props.url);
   }, [props]);
 
   return (

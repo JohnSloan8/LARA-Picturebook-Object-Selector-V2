@@ -7,13 +7,16 @@ import { Container } from "react-bootstrap";
 import { useState } from "react";
 
 export default function App() {
-  const [pages, setPages] = useState([]);
+  const [books, setBooks] = useState([]);
+  const [book, setBook] = useState([]);
+  const [pages, setPages] = useState({});
+
   return (
     <div className="App">
       <Container className="mt-4">
         <h1>LARA Picturebook Object Selector</h1>
-        <Book />
-        <Pages pages={pages} setPages={setPages} />
+        <Book books={books} setBooks={setBooks} setBook={setBook} />
+        <Pages pages={pages} setPages={setPages} book={book} />
         <Page pages={pages} setPages={setPages} />
       </Container>
     </div>

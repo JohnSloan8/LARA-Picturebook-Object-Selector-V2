@@ -7,7 +7,7 @@ export default function Words(props) {
   // const [imageID, setImageID] = useState("");
 
   useEffect(() => {
-    console.log("wordsData", props.wordsData);
+    //console.log("wordsData", props.wordsData);
   }, [props]);
 
   return (
