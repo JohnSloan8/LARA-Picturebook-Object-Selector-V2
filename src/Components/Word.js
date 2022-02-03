@@ -6,13 +6,13 @@ export default function Word(props) {
   // const [imageID, setImageID] = useState("");
 
   useEffect(() => {
-    //console.log("word", props.word[1][0]);
+    console.log("word", props.word);
     if (props.word[1][0] === "") {
       setButtonVariety("secondary");
     } else {
       setButtonVariety("primary");
     }
-  }, []);
+  }, [props]);
 
   const showPolygon = () => {
     console.log("showing polygons");

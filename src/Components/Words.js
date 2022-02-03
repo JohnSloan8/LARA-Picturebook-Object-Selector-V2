@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import Word from "./Word";
 
 export default function Words(props) {
-  // const [imageURL, setImageURL] = useState("");
+  const [buttonVariety, setButtonVariety] = useState("primary");
   // const [imageID, setImageID] = useState("");
 
   useEffect(() => {
-    //console.log("wordsData", props.wordsData);
+    console.log("word", props.wordData);
   }, [props]);
 
   return (
