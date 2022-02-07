@@ -14,6 +14,7 @@ export default function Page(props) {
     console.log("props.url:", props.url);
     if (props.url) {
       let clickPoints = [];
+      window.clickPoints = clickPoints;
       var rawImg = new Image();
       rawImg.src = props.url;
       imageDiv = document.getElementById("imageID");
@@ -54,6 +55,7 @@ export default function Page(props) {
     for (i of split.reverse()) context.lineTo(i[0], i[1]);
     context.stroke();
   };
+  window.drawPoly = drawPoly;
 
   const drawDot = (x, y) => {
     context.beginPath();

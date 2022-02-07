@@ -10,6 +10,7 @@ export default function App() {
   const [books, setBooks] = useState([]);
   const [book, setBook] = useState([]);
   const [pages, setPages] = useState({});
+  const [clickPoints, setClickPoints] = useState([]);
 
   return (
     <div className="App">
@@ -17,7 +18,12 @@ export default function App() {
         <h1>LARA Picturebook Object Selector</h1>
         <Book books={books} setBooks={setBooks} setBook={setBook} />
         <Pages pages={pages} setPages={setPages} book={book} />
-        <Page pages={pages} setPages={setPages} />
+        <Page
+          pages={pages}
+          setPages={setPages}
+          clickPoints={clickPoints}
+          setClickPoints={setClickPoints}
+        />
       </Container>
     </div>
   );
