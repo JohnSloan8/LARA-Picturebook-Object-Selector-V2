@@ -11,7 +11,11 @@ export default function Words(props) {
         <Col>
           {props.wordsData.map((sent, s_i) => {
             return (
-              <Sent sent={sent} setEditorVisible={props.setEditorVisible} />
+              <Sent
+                sent={sent}
+                setEditorVisible={props.setEditorVisible}
+                sentID={s_i}
+              />
             );
           })}
         </Col>

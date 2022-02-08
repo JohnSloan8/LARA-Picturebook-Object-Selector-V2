@@ -4,9 +4,15 @@ import { VariableContext } from "./Pages";
 
 export default function Word(props) {
   const [buttonVariety, setButtonVariety] = useState("primary");
-  const { setConfirmSelection, setClearSelection } = useContext(
-    VariableContext
-  );
+  const {
+    setConfirmSelection,
+    setClearSelection,
+    setSelectedWord,
+    selectedWord,
+    wordsData,
+    setWordsData,
+    setCanDraw
+  } = useContext(VariableContext);
 
   useEffect(() => {
     if (props.word[1][0] === "") {
@@ -19,29 +25,27 @@ export default function Word(props) {
   const showPolygon = (e) => {
     // console.log("showing polygons");
     // console.log("this.id", e.target.id);
-    let coordArray = e.target.id.split(",");
-    coordArray.shift();
+    // console.log('props.sentID:', props.sentID)
+    // console.log('props.wordID:', props.wordID)
+    let coordArray = e.target.id.split("_");
+    console.log("coordArray:", coordArray);
+    let word = coordArray[0];
+    console.log("word:", word);
+    console.log("wordsData:", wordsData);
+    setSelectedWord([word, props.sentID, props.wordID]);
     // console.log('coordArray:', coordArray)
-    let properCoords = [];
-    if (coordArray.length >= 8) {
-      let twoCoords = [];
-      let count = 0;
-      coordArray.forEach((c, i) => {
-        twoCoords.push(parseInt(c));
-        if (i % 2 !== 0) {
-          properCoords.push(twoCoords);
-          twoCoords = [];
-          count += 1;
-        }
-      });
-      clickPoints = properCoords;
-      // console.log("clickPoints:", clickPoints);
+
+    console.log("coo:", wordsData[coordArray[1]][coordArray[2]]);
+    if (wordsData[coordArray[1]][coordArray[2]].length >= 4) {
+      clickPoints = wordsData[coordArray[1]][coordArray[2]].slice(1);
       drawPoly(clickPoints);
       setClearSelection("visible");
+      setCanDraw(false);
     } else {
       // console.log('empty coords')
       setClearSelection("hidden");
       clearPoly();
+      setCanDraw(true);
     }
   };
 
@@ -53,15 +57,20 @@ export default function Word(props) {
     for (i of coords.reverse()) context.lineTo(i[0], i[1]);
     context.stroke();
   };
+  window.drawPoly = drawPoly;
 
-  const clearPoly = () => {};
+  const clearPoly = () => {
+    context.clearRect(0, 0, canvas.current.width, canvas.current.height);
+    // setWordsData[props.sentID][props.WordID]
+    setClearSelection("hidden");
+  };
 
   return (
     // {if ( props.word[1][0] === "" ) {
     <Col className="gx-1">
       <Button
         variant={buttonVariety}
-        id={props.word}
+        id={props.word[0] + "_" + props.sentID + "_" + props.wordID}
         onClick={showPolygon}
         className="mb-2"
       >

@@ -1,22 +1,21 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import { VariableContext } from "./Pages";
 
 export default function Page(props) {
   const [imageURL, setImageURL] = useState("");
   const [imageID, setImageID] = useState("");
-  const [clickPoints, setClickPoints] = useState([]);
-  const canvas = useRef(); // ADDED
+  const { canDraw } = useContext(VariableContext);
+
+  canvas = useRef(); // ADDED
 
   useEffect(() => {
     const context = canvas.current.getContext("2d");
     window.context = context;
-
     setImageURL(props.url);
     setImageID(props.name);
     console.log("props.url:", props.url);
     if (props.url) {
-      let clickPoints = [];
-      window.clickPoints = clickPoints;
       var rawImg = new Image();
       rawImg.src = props.url;
       // imageDiv = document.getElementById("imageID");
@@ -27,11 +26,12 @@ export default function Page(props) {
         resize(canvas.current, rawImg.height, rawImg.width);
       };
       canvas.current.addEventListener("click", (evt) => {
+        console.log("evt.offsetX:", evt.offsetX);
         clickPoints.push([evt.offsetX, evt.offsetY]);
         drawDot(evt.offsetX, evt.offsetY);
-        console.log("clickPoints:", clickPoints);
+        console.log("clickPoints in click:", clickPoints);
       });
-      window.canvas = canvas;
+      window.canvas = canvas.current;
       // }
     }
   }, [props.url]);
@@ -44,18 +44,20 @@ export default function Page(props) {
   };
 
   const drawDot = (x, y) => {
-    context.beginPath();
-    context.arc(x, y, 4, 0, 2 * Math.PI);
-    context.fill();
+    console.log("canDraw:", canDraw);
+    if (canDraw) {
+      context.beginPath();
+      context.arc(x, y, 4, 0, 2 * Math.PI);
+      context.fill();
+    }
   };
-  window.drawDot = drawDot;
+  //window.drawDot = drawDot;
 
-  const dealWithClick = (evt) => {
-    setClickPoints(clickPoints.push([evt.offsetX, evt.offsetY]));
-    // drawDot(evt.offsetX, evt.offsetY)
-    console.log("clickPoints:", clickPoints);
-    console.log("evt:", evt);
-  };
+  // const dealWithClick = (evt) => {
+  //   setClickPoints(clickPoints.push([evt.offsetX, evt.offsetY]));
+  //   // drawDot(evt.offsetX, evt.offsetY)
+  //   console.log("clickPoints:", clickPoints);
+  // };
 
   return (
     <div id="imageID">

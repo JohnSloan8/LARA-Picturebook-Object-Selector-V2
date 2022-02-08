@@ -4,7 +4,7 @@ import Word from "./Word";
 
 export default function Sent(props) {
   useEffect(() => {
-    console.log("props.sent:", props.sent);
+    // console.log("props.sent:", props.sent);
   }, [props]);
 
   return (
@@ -18,7 +18,14 @@ export default function Sent(props) {
                 coords.push(w[j]);
               }
             });
-            return <Word word={word} coords={coords} />;
+            return (
+              <Word
+                word={word}
+                coords={coords}
+                sentID={props.sentID}
+                wordID={w_i}
+              />
+            );
           }
         })}
       </Row>

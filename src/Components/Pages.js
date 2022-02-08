@@ -16,7 +16,9 @@ export default function Pages(props) {
   const [wordsData, setWordsData] = useState([]);
   const [confirmSelection, setConfirmSelection] = useState("hidden");
   const [clearSelection, setClearSelection] = useState("hidden");
-  const [selectedWord, setSelectedWord] = useState("");
+  const [selectedWord, setSelectedWord] = useState([]);
+  const [canDraw, setCanDraw] = useState(true);
+  const [clickPoints, setClickPoints] = useState([]);
 
   useEffect(() => {
     //console.log("props.book:", props.book);
@@ -52,7 +54,14 @@ export default function Pages(props) {
         clearSelection,
         setClearSelection,
         selectedWord,
-        setSelectedWord
+        setSelectedWord,
+        wordsData,
+        setWordsData,
+        mainImageUrl,
+        canDraw,
+        setCanDraw,
+        clickPoints,
+        setClickPoints
       }}
     >
       <Container className="mt-4">
