@@ -1,10 +1,9 @@
 import { Image, Container, Row, Col, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import Sent from "./Sent";
+import { VariableContext } from "./Pages";
 
 export default function Words(props) {
-  const [buttonVariety, setButtonVariety] = useState("primary");
-
   return (
     <>
       <Row xs="auto" className="mb-3">
@@ -13,7 +12,7 @@ export default function Words(props) {
             return (
               <Sent
                 sent={sent}
-                setEditorVisible={props.setEditorVisible}
+                //setEditorVisible={setEditorVisible}
                 sentID={s_i}
               />
             );

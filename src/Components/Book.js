@@ -11,7 +11,7 @@ export default function Book(props) {
         "https://warm-reef-17230.herokuapp.com/api/v1/picturebook/getAllPictureBookNames"
       )
       .then((json) => {
-        console.log("json.data:", json.data);
+        //console.log("json.data:", json.data);
         props.setBooks(json.data);
         setIsLoading(false);
       })
@@ -19,7 +19,7 @@ export default function Book(props) {
   }, []);
 
   const displayImages = (e) => {
-    console.log("book:", e.target.id);
+    //console.log("book:", e.target.id);
     props.setBook(e.target.id);
   };
 

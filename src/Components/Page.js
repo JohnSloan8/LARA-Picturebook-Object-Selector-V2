@@ -5,7 +5,24 @@ import { VariableContext } from "./Pages";
 export default function Page(props) {
   const [imageURL, setImageURL] = useState("");
   const [imageID, setImageID] = useState("");
-  const { canDraw } = useContext(VariableContext);
+  const {
+    confirmSelection,
+    setConfirmSelection,
+    clearSelection,
+    setClearSelection,
+    selectedWord,
+    setSelectedWord,
+    wordsData,
+    setWordsData,
+    mainImageUrl,
+    canDraw,
+    setCanDraw,
+    clicks,
+    setClicks,
+    setReadyToSelect,
+    polyShowing,
+    setPolyShowing
+  } = useContext(VariableContext);
 
   canvas = useRef(); // ADDED
 
@@ -14,7 +31,7 @@ export default function Page(props) {
     window.context = context;
     setImageURL(props.url);
     setImageID(props.name);
-    console.log("props.url:", props.url);
+    //console.log("props.url:", props.url);
     if (props.url) {
       var rawImg = new Image();
       rawImg.src = props.url;
@@ -25,14 +42,21 @@ export default function Page(props) {
         canvas.current.style.backgroundImage = "url(" + props.url + ")";
         resize(canvas.current, rawImg.height, rawImg.width);
       };
-      canvas.current.addEventListener("click", (evt) => {
-        console.log("evt.offsetX:", evt.offsetX);
-        clickPoints.push([evt.offsetX, evt.offsetY]);
-        drawDot(evt.offsetX, evt.offsetY);
-        console.log("clickPoints in click:", clickPoints);
-      });
       window.canvas = canvas.current;
-      // }
+
+      canvas.addEventListener("click", (evt) => {
+        // if (polyShowing) {
+        //   setClearSelection("hidden");
+        //   setClicks([]);
+        //   setReadyToSelect(false);
+        // }
+        console.log("canDraw:", canDraw);
+        if (canDraw) {
+          setClicks((clicks) => [...clicks, [evt.offsetX, evt.offsetY]]);
+          drawDot(evt.offsetX, evt.offsetY);
+        }
+        // console.log("clicks in click:", clicks);
+      });
     }
   }, [props.url]);
 
@@ -44,12 +68,10 @@ export default function Page(props) {
   };
 
   const drawDot = (x, y) => {
-    console.log("canDraw:", canDraw);
-    if (canDraw) {
-      context.beginPath();
-      context.arc(x, y, 4, 0, 2 * Math.PI);
-      context.fill();
-    }
+    //console.log("canDraw in drawDot if:", canDraw)
+    context.beginPath();
+    context.arc(x, y, 4, 0, 2 * Math.PI);
+    context.fill();
   };
   //window.drawDot = drawDot;
 
@@ -61,9 +83,7 @@ export default function Page(props) {
 
   return (
     <div id="imageID">
-      <canvas
-        ref={canvas} // ADDED
-      />
+      <canvas ref={canvas} />
     </div>
   );
 }

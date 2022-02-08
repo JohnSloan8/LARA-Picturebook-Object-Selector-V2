@@ -12,37 +12,44 @@ export default function Editor(props) {
     setWordsData,
     mainImageUrl,
     setClearSelection,
-    canDraw,
-    setCanDraw
+    setClicks,
+    setReadyToSelect
   } = useContext(VariableContext);
 
   const removePoly = () => {
     console.log("selectedWord:", selectedWord);
     context.clearRect(0, 0, canvas.current.width, canvas.current.height);
     console.log("wordsData:", wordsData);
+
     //let coordsData = wordsData[selectedWord[1]][selectedWord[2]].slice(1)
     //console.log('corrdsData:', coordsData)
-    wordsData[selectedWord[1]][selectedWord[2]] = [
-      selectedWord[0],
-      ["", ""],
-      ["", ""]
-    ];
-    setWordsData(wordsData);
+    if (selectedWord.length !== 0) {
+      wordsData[selectedWord[1]][selectedWord[2]] = [
+        selectedWord[0],
+        ["", ""],
+        ["", ""]
+      ];
+    } else {
+      setReadyToSelect(false);
+    }
     setClearSelection("hidden");
+    setWordsData(wordsData);
+    setClicks([]);
   };
+  //
 
   return (
     <Container>
       <Row className="m-1">
         <Col>
-          <Button
+          {/* <Button
             variant="success"
             className="m-2"
             size="lg"
             style={{ visibility: confirmSelection }}
           >
             Confirm Selection
-          </Button>
+          </Button> */}
           <Button
             variant="danger"
             onClick={removePoly}

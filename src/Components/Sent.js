@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Row, Container } from "react-bootstrap";
 import Word from "./Word";
 
 export default function Sent(props) {
-  useEffect(() => {
-    // console.log("props.sent:", props.sent);
-  }, [props]);
+  // useEffect(() => {
+  //   // console.log("props.sent:", props.sent);
+  // }, [props]);
 
   return (
     <Container>

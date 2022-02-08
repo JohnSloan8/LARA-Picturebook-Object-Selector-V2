@@ -5,53 +5,70 @@ import { VariableContext } from "./Pages";
 export default function Word(props) {
   const [buttonVariety, setButtonVariety] = useState("primary");
   const {
+    confirmSelection,
     setConfirmSelection,
+    clearSelection,
     setClearSelection,
-    setSelectedWord,
     selectedWord,
+    setSelectedWord,
     wordsData,
     setWordsData,
-    setCanDraw
+    mainImageUrl,
+    canDraw,
+    setCanDraw,
+    clicks,
+    setClicks,
+    readyToSelect,
+    setReadyToSelect,
+    polyShowing,
+    setPolyShowing
   } = useContext(VariableContext);
 
   useEffect(() => {
-    if (props.word[1][0] === "") {
-      setButtonVariety("secondary");
+    if (readyToSelect) {
+      setButtonVariety("warning");
     } else {
-      setButtonVariety("primary");
+      if (props.word[1][0] === "") {
+        setButtonVariety("secondary");
+      } else {
+        setButtonVariety("primary");
+      }
     }
-  }, [props]);
+  }, [props, readyToSelect]);
 
   const showPolygon = (e) => {
-    // console.log("showing polygons");
-    // console.log("this.id", e.target.id);
-    // console.log('props.sentID:', props.sentID)
-    // console.log('props.wordID:', props.wordID)
-    let coordArray = e.target.id.split("_");
-    console.log("coordArray:", coordArray);
-    let word = coordArray[0];
-    console.log("word:", word);
-    console.log("wordsData:", wordsData);
-    setSelectedWord([word, props.sentID, props.wordID]);
-    // console.log('coordArray:', coordArray)
-
-    console.log("coo:", wordsData[coordArray[1]][coordArray[2]]);
-    if (wordsData[coordArray[1]][coordArray[2]].length >= 4) {
-      clickPoints = wordsData[coordArray[1]][coordArray[2]].slice(1);
-      drawPoly(clickPoints);
-      setClearSelection("visible");
-      setCanDraw(false);
+    if (readyToSelect) {
+      setReadyToSelect(false);
+      drawPoly(clicks);
+      setPolyShowing(true);
+      console.log("showPolygon readyToSelect");
+      wordsData[props.sentID][props.wordID] = [props.word[0]].concat(clicks);
+      setWordsData(wordsData);
+      //console.log('wordsData:', wordsData)
     } else {
-      // console.log('empty coords')
-      setClearSelection("hidden");
-      clearPoly();
-      setCanDraw(true);
+      setClicks([]);
+      let coordArray = e.target.id.split("_");
+      console.log("coordArray:", coordArray);
+      let word = coordArray[0];
+      setSelectedWord([word, props.sentID, props.wordID]);
+
+      if (wordsData[coordArray[1]][coordArray[2]].length >= 4) {
+        drawPoly(wordsData[coordArray[1]][coordArray[2]].slice(1));
+        setClearSelection("visible");
+        //setCanDraw(false);
+        //setPolyShowing(true);
+      } else {
+        setClearSelection("hidden");
+        clearPoly();
+        //setCanDraw(true);
+        //setPolyShowing(false);
+      }
     }
   };
 
   const drawPoly = (coords) => {
     context.lineWidth = 2;
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, canvas.current.width, canvas.current.height);
     context.beginPath();
     context.moveTo(coords[0][0], coords[0][1]);
     for (i of coords.reverse()) context.lineTo(i[0], i[1]);
