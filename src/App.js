@@ -17,13 +17,17 @@ export default function App() {
       <Container className="mt-4">
         <h1>LARA Picturebook Object Selector</h1>
         <Book books={books} setBooks={setBooks} setBook={setBook} />
-        <Pages pages={pages} setPages={setPages} book={book} />
-        <Page
+        <Pages
+          pages={pages}
+          setPages={setPages}
+          book={book}
+        />
+        {/* <Page
           pages={pages}
           setPages={setPages}
           clickPoints={clickPoints}
           setClickPoints={setClickPoints}
-        />
+        /> */}
       </Container>
     </div>
   );
