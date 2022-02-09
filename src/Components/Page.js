@@ -66,12 +66,13 @@ export default function Page(props) {
 
   const dealWithClick = (evt) => {
     //console.log('evt.offsetX', evt.offsetX)
-    if (!polyShowing) {
-      setDrawDot((drawDot) => [
-        evt.nativeEvent.offsetX,
-        evt.nativeEvent.offsetY
-      ]);
+    if (polyShowing) {
+      context.clearRect(0, 0, canvas.current.width, canvas.current.height);
+      setClearSelection("hidden");
+      setClicks([]);
+      setPolyShowing(false);
     }
+    setDrawDot((drawDot) => [evt.nativeEvent.offsetX, evt.nativeEvent.offsetY]);
   };
 
   useEffect(() => {

@@ -37,6 +37,10 @@ export default function Word(props) {
   }, [props, readyToSelect]);
 
   const showPolygon = (e) => {
+    let coordArray = e.target.id.split("_");
+    console.log("coordArray:", coordArray);
+    let word = coordArray[0];
+    setSelectedWord([word, props.sentID, props.wordID]);
     if (readyToSelect) {
       setReadyToSelect(false);
       drawPoly(clicks);
@@ -47,11 +51,6 @@ export default function Word(props) {
       //console.log('wordsData:', wordsData)
     } else {
       setClicks([]);
-      let coordArray = e.target.id.split("_");
-      console.log("coordArray:", coordArray);
-      let word = coordArray[0];
-      setSelectedWord([word, props.sentID, props.wordID]);
-
       if (wordsData[coordArray[1]][coordArray[2]].length >= 4) {
         drawPoly(wordsData[coordArray[1]][coordArray[2]].slice(1));
         setClearSelection("visible");

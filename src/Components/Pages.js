@@ -65,7 +65,7 @@ export default function Pages(props) {
       }
     }
 
-    if (clicks.length === 3) {
+    if (clicks.length === 4) {
       setReadyToSelect(true);
     }
   }, [clicks]);
