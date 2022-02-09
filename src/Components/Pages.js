@@ -118,7 +118,7 @@ export default function Pages(props) {
             <h2>Please wait...</h2>
           ) : (
             <>
-              <p>Choose an image!</p>
+              <p>Choose an image</p>
               <Row>
                 <Col>
                   <div className="cover-container">

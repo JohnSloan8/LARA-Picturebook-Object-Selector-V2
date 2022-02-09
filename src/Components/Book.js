@@ -29,7 +29,7 @@ export default function Book(props) {
         <p>Please wait...</p>
       ) : (
         <>
-          <p>Choose a book!</p>
+          <p>Choose a book</p>
           <Form.Select aria-label="Default select example">
             <option>books...</option>
             {props.books.map((book, i) => {
