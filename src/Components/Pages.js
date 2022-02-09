@@ -115,7 +115,7 @@ export default function Pages(props) {
       <Container className="mt-4">
         <Container className={showHideImages}>
           {pagesLoading ? (
-            <h2>Hang on a mo for pages</h2>
+            <h2>Please wait...</h2>
           ) : (
             <>
               <p>Choose an image!</p>

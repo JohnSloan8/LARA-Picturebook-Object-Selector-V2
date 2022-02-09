@@ -26,7 +26,7 @@ export default function Book(props) {
   return (
     <Container className="mt-4">
       {isLoading ? (
-        <h2>Hang on a mo</h2>
+        <p>Please wait...</p>
       ) : (
         <>
           <p>Choose a book!</p>
