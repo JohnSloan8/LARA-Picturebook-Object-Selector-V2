@@ -21,7 +21,9 @@ export default function Page(props) {
     setClicks,
     setReadyToSelect,
     polyShowing,
-    setPolyShowing
+    setPolyShowing,
+    setDrawDot,
+    drawDot
   } = useContext(VariableContext);
 
   canvas = useRef(); // ADDED
@@ -43,22 +45,40 @@ export default function Page(props) {
         resize(canvas.current, rawImg.height, rawImg.width);
       };
       window.canvas = canvas.current;
+      setClearSelection("hidden");
+      setClicks([]);
 
-      canvas.addEventListener("click", (evt) => {
-        // if (polyShowing) {
-        //   setClearSelection("hidden");
-        //   setClicks([]);
-        //   setReadyToSelect(false);
-        // }
-        console.log("canDraw:", canDraw);
-        if (canDraw) {
-          setClicks((clicks) => [...clicks, [evt.offsetX, evt.offsetY]]);
-          drawDot(evt.offsetX, evt.offsetY);
-        }
-        // console.log("clicks in click:", clicks);
-      });
+      // canvas.addEventListener("click", (evt) => {
+      //   // if (polyShowing) {
+      //   //   setClearSelection("hidden");
+      //   //   setClicks([]);
+      //   //   setReadyToSelect(false);
+      //   // }
+      //   setDrawDot([evt.offsetX, evt.offsetY])
+      //   // if (polyShowing) {
+      //   //   setClicks((clicks) => [...clicks, [evt.offsetX, evt.offsetY]]);
+      //   //   drawDot(evt.offsetX, evt.offsetY);
+      //   // }
+      //   // console.log("clicks in click:", clicks);
+      // });
     }
   }, [props.url]);
+
+  const dealWithClick = (evt) => {
+    //console.log('evt.offsetX', evt.offsetX)
+    if (!polyShowing) {
+      setDrawDot((drawDot) => [
+        evt.nativeEvent.offsetX,
+        evt.nativeEvent.offsetY
+      ]);
+    }
+  };
+
+  useEffect(() => {
+    //console.log('drawDot:', drawDot)
+    setClicks((clicks) => [...clicks, drawDot]);
+    drawDotOnCanvas(drawDot[0], drawDot[1]);
+  }, [drawDot]);
 
   const resize = (thisCanvas, x, y) => {
     thisCanvas.height = x;
@@ -67,7 +87,7 @@ export default function Page(props) {
     canvasContainer.style.width = y.toString() + "px";
   };
 
-  const drawDot = (x, y) => {
+  const drawDotOnCanvas = (x, y) => {
     //console.log("canDraw in drawDot if:", canDraw)
     context.beginPath();
     context.arc(x, y, 4, 0, 2 * Math.PI);
@@ -83,7 +103,7 @@ export default function Page(props) {
 
   return (
     <div id="imageID">
-      <canvas ref={canvas} />
+      <canvas ref={canvas} onClick={dealWithClick} />
     </div>
   );
 }

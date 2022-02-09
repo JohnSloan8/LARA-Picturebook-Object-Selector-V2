@@ -56,12 +56,12 @@ export default function Word(props) {
         drawPoly(wordsData[coordArray[1]][coordArray[2]].slice(1));
         setClearSelection("visible");
         //setCanDraw(false);
-        //setPolyShowing(true);
+        setPolyShowing(true);
       } else {
         setClearSelection("hidden");
         clearPoly();
         //setCanDraw(true);
-        //setPolyShowing(false);
+        setPolyShowing(false);
       }
     }
   };

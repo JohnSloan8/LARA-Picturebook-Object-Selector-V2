@@ -22,6 +22,7 @@ export default function Pages(props) {
   const [clicks, setClicks] = useState([]);
   const [readyToSelect, setReadyToSelect] = useState(false);
   const [polyShowing, setPolyShowing] = useState(false);
+  const [drawDot, setDrawDot] = useState([]);
 
   useEffect(() => {
     //console.log("props.book:", props.book);
@@ -49,14 +50,19 @@ export default function Pages(props) {
   }, [canDraw]);
 
   useEffect(() => {
-    //console.log('clicks.length:', clicks.length)
+    // console.log('clicks.length:', clicks.length)
+    // console.log('clicks[0]:', clicks[0])
     if (clicks.length === 0) {
       setReadyToSelect(false);
       //setClearSelection("hidden");
     }
 
     if (clicks.length === 1) {
-      setClearSelection("visible");
+      if (clicks[0].length !== 0) {
+        setClearSelection("visible");
+      } else {
+        setClicks([]);
+      }
     }
 
     if (clicks.length === 3) {
@@ -101,7 +107,9 @@ export default function Pages(props) {
         readyToSelect,
         setReadyToSelect,
         polyShowing,
-        setPolyShowing
+        setPolyShowing,
+        drawDot,
+        setDrawDot
       }}
     >
       <Container className="mt-4">
