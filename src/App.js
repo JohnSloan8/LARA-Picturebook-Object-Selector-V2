@@ -15,6 +15,7 @@ export default function App() {
     <div className="App">
       <Container className="mt-4">
         <h1>LARA Picturebook Object Selector</h1>
+        <h5>(Data in LARA Picturebook format)</h5>
         <Book books={books} setBooks={setBooks} setBook={setBook} />
         <Pages pages={pages} setPages={setPages} book={book} />
         {/* <Page
